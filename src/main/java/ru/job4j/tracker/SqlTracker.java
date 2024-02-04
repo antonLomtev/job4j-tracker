@@ -125,7 +125,7 @@ public class SqlTracker implements Store {
                 if (rs.next()) {
                     item.setId(rs.getInt(1));
                     item.setName(rs.getString(2));
-                    item.setCreated( rs.getTimestamp(3).toLocalDateTime());
+                    item.setCreated(rs.getTimestamp(3).toLocalDateTime());
                 }
             }
         } catch (Exception e) {
