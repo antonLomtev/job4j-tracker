@@ -123,6 +123,7 @@ public class SqlTracker implements Store {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
+                    item = new Item();
                     item.setId(rs.getInt(1));
                     item.setName(rs.getString(2));
                     item.setCreated(rs.getTimestamp(3).toLocalDateTime());
