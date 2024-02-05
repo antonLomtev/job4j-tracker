@@ -117,7 +117,7 @@ public class SqlTracker implements Store {
 
     @Override
     public Item findById(int id) {
-        Item item = new Item();
+        Item item = null;
         try (PreparedStatement ps =
                      connection.prepareStatement("select * from items where id = ?")) {
             ps.setInt(1, id);
