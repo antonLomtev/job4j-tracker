@@ -4,7 +4,6 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -56,6 +55,7 @@ class SqlTrackerTest {
         tracker.add(item);
         assertThat(tracker.findById(item.getId())).isEqualTo(item);
     }
+
     @Test
     public void whenDeleteItem() {
         SqlTracker tracker = new SqlTracker(connection);
@@ -102,6 +102,7 @@ class SqlTrackerTest {
         tracker.add(third);
         assertThat(tracker.findByName("four")).isEmpty();
     }
+
     @Test
     public void whenFindByIdNoItem() {
         SqlTracker tracker = new SqlTracker(connection);
