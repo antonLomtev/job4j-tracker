@@ -4,7 +4,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import ru.job4j.tracker.Item;
+import org.junit.jupiter.api.Assertions;
 
 import java.io.InputStream;
 import java.sql.Connection;
@@ -55,5 +55,67 @@ class SqlTrackerTest {
         Item item = new Item("item");
         tracker.add(item);
         assertThat(tracker.findById(item.getId())).isEqualTo(item);
+    }
+    @Test
+    public void whenDeleteItem() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item item = new Item("item");
+        tracker.add(item);
+        tracker.delete(item.getId());
+        assertThat(tracker.findById(item.getId())).isNull();
+    }
+
+    @Test
+    public void whenReplaceItem() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item item = new Item("item");
+        tracker.add(item);
+        Item item1 = new Item("item1");
+        tracker.replace(item.getId(), item1);
+        assertThat(tracker.findById(item.getId()).equals(item1));
+    }
+
+    @Test
+    public void whenFindAllItems() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item first = new Item("first");
+        Item second = new Item("second");
+        Item third = new Item("Third");
+
+        List<Item> items = new ArrayList<>();
+        items.add(tracker.add(first));
+        items.add(tracker.add(second));
+        items.add(tracker.add(third));
+        assertThat(tracker.findAll()).isNotEmpty();
+        assertThat(items).isEqualTo(tracker.findAll());
+    }
+
+    @Test
+    public void whenNoItemNameThanEmptyList() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item first = new Item("first");
+        Item second = new Item("second");
+        Item third = new Item("Third");
+
+        tracker.add(first);
+        tracker.add(second);
+        tracker.add(third);
+        assertThat(tracker.findByName("four")).isEmpty();
+    }
+    @Test
+    public void whenFindByIdNoItem() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item item = new Item("item");
+        tracker.add(item);
+        assertThat(tracker.findById(item.getId() + 1)).isNull();
+    }
+
+    @Test
+    public void whenFindByName() {
+        SqlTracker tracker = new SqlTracker(connection);
+        Item item = new Item("item");
+        List<Item> items = new ArrayList<>();
+        items.add(tracker.add(item));
+        assertThat(tracker.findByName("item")).isEqualTo(items);
     }
 }
